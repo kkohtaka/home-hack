@@ -1,0 +1,35 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+
+    env:
+      CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
+      SCRIPT_ID: ${{ secrets.SCRIPT_ID }}
+
+    steps:
+      - name: Setup repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: "19"
+
+      - name: Generate .clasprc.json
+        run: |
+          echo $CLASPRC_JSON > .clasprc.json
+
+      - name: Update .clasp.json
+        run: |
+          npx clasp settings settingKey $SCRIPT_ID
+
+      - name: Deploy
+        run: |
+          npm run deploy
