@@ -38,4 +38,4 @@ jobs:
 
       - name: Deploy
         run: |
-          npm run deploy
+          npx clasp --auth .clasprc.json push
