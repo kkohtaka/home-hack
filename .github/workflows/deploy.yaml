@@ -22,6 +22,10 @@ jobs:
         with:
           node-version: "19"
 
+      - name: Install dependent packages
+        run: |
+          npm install
+
       - name: Generate .clasprc.json
         run: |
           echo $CLASPRC_JSON > .clasprc.json
