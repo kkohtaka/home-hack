@@ -13,6 +13,7 @@
     "access": "ANYONE"
   },
   "oauthScopes": [
+    "https://mail.google.com/",
     "https://www.googleapis.com/auth/drive",
     "https://www.googleapis.com/auth/script.webapp.deploy"
   ],
