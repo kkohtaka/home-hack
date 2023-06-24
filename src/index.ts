@@ -17,9 +17,28 @@ function classify(): void {
       Logger.log(
         `Move file "${file.getName()}" to directory "${targetDir.getName()}"`
       );
-      file.moveTo(targetDir);
+      file = file.moveTo(targetDir);
+
+      Logger.log(`Send notification e-mails to users who can read the file.`);
+      notifyNewFileAddition(file, targetDir)(targetDir.getOwner());
+      targetDir.getEditors().forEach(notifyNewFileAddition(file, targetDir));
+      targetDir.getViewers().forEach(notifyNewFileAddition(file, targetDir));
     }
   }
+}
+
+function notifyNewFileAddition(
+  file: GoogleAppsScript.Drive.File,
+  dir: GoogleAppsScript.Drive.Folder
+) {
+  return (user: GoogleAppsScript.Drive.User) => {
+    Logger.log(`Sending an e-mail to ${user.getName()} <${user.getEmail()}>`);
+    GmailApp.sendEmail(
+      user.getEmail(),
+      `New file is added to directory: ${dir.getName()}`,
+      `A new file: ${file.getName()} is available at ${file.getUrl()}.`
+    );
+  };
 }
 
 function getKeywords(dir: GoogleAppsScript.Drive.Folder): string[] {
