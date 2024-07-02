@@ -13,7 +13,7 @@
     "@google/clasp": "^2.4.2",
     "@typescript-eslint/eslint-plugin": "^7.15.0",
     "eslint": "^8.42.0",
-    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard-with-typescript": "^35.0.0",
     "eslint-plugin-googleappsscript": "^1.0.5",
     "eslint-plugin-import": "^2.29.1",
