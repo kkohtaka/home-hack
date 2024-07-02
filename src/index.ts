@@ -80,3 +80,13 @@ function searchPDFFilesContainingKeywords(
   Logger.log(`Searching files with query: "${query}"`);
   return DriveApp.searchFiles(query);
 }
+
+function generateURLToGCS(bucket: string): string {
+  return `https://storage.googleapis.com/upload/storage/v1/b/${bucket}/o`
+}
+
+function uploadFileToGCS() {
+  let url = ""
+  let opts = {}
+  var resp = UrlFetchApp.fetch(url, opts)
+}
