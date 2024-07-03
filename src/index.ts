@@ -81,12 +81,19 @@ function searchPDFFilesContainingKeywords(
   return DriveApp.searchFiles(query);
 }
 
-function generateURLToGCS(bucket: string): string {
-  return `https://storage.googleapis.com/upload/storage/v1/b/${bucket}/o`
+function generateURLToGCS(bucket: string, name: string): string {
+  return `https://storage.googleapis.com/upload/storage/v1/b/${bucket}/o?name=${name}&uploadType=media`
 }
 
-function uploadFileToGCS() {
-  let url = ""
-  let opts = {}
-  var resp = UrlFetchApp.fetch(url, opts)
+function uploadFileToGCS(bucket: string, file: GoogleAppsScript.Drive.File): Error | null {
+  // TODO: Use a unique name for the file.
+  var resp = UrlFetchApp.fetch(generateURLToGCS(bucket, file.getName()), {
+    "method": "post",
+    "contentType": file.getBlob().getContentType() || "application/octet-stream",
+    "payload": file.getBlob().getBytes(),
+  })
+  if (resp.getResponseCode() != 200) {
+    return Error(`unable to upload a file "${file.getName()}" to GCS bucket "${bucket}": response code: ${resp.getResponseCode()}`)
+  }
+   return null
 }
